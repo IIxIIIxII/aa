@@ -1,0 +1,35 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+*.log
+local_settings.py
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+*.env
