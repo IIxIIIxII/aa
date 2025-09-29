@@ -8,6 +8,8 @@
         <p>{{post.text}}</p>
 
         <hr>
-        <a href="{% url 'post_update' post.pk %}">Изменить</a>
+    <a href="{% url 'post_update' post.pk %}" class="btn btn-primary me-2">Изменить</a>
+    <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger">Удалить</a>
+
 {% endblock %}
 

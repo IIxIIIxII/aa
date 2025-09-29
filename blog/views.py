@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
+from django.views.generic import DeleteView
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm
 
@@ -26,7 +28,7 @@ def post_create(request):
         return render(request, 'blog/post_form.html', {'form': form})
     
 
-    
+
 
 def post_update(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -38,3 +40,8 @@ def post_update(request, pk):
     else:
         form = PostForm(instance=post)
         return render(request, 'blog/post_form.html', {'form': form})
+    
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    success_url = reverse_lazy('post_list')
