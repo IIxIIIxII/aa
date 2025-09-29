@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ post.title }}</title>
-</head>
-<body>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.description }}</p>
-    <p><small>Опубликовано: {{ post.created_at }}</small></p>
-    <a href="/">← Назад к списку</a>
-</body>
-</html>
+{% extends 'blog/base.html' %}
 
+{% block title %}Список постов{% endblock %}
+
+{% block content %}
+      <a href="{% url 'post_list' %}">Все посты</a>
+        <h1>{{post.title}}</h1>
+        <p>{{post.text}}</p>
+
+        <hr>
+        <a href="{% url 'post_update' post.pk %}">Изменить</a>
+{% endblock %}
 

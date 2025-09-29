@@ -3,18 +3,17 @@
 {% block title %}Список постов{% endblock %}
 
 {% block content %}
-  <h1>Посты</h1>
-  <ul>
-    {% for post in posts %}
-      <li>
-        <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a><br>
-        <p>{{ post.description }}</p>
-        <small>{{ post.created_at|date:"d.m.Y H:i" }}</small>
-      </li>
-    {% empty %}
-      <li>Нет постов</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+  <div class="mb-3">
+      <a href="{% url 'post_create' %}" class="btn btn-primary">Создать пост</a>
+  </div>
 
+   {% for post in posts %}
+        <div class="mb-4">
+            <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+            <p>{{ post.text }}</p>
+        </div>
+   {% empty %}
+        <p>Пока постов нет</p>
+   {% endfor %}
+{% endblock %}
 
