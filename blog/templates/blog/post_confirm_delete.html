@@ -3,10 +3,29 @@
 {% block title %}Удалить пост{% endblock %}
 
 {% block content %}
-  <h2>Вы уверены, что хотите удалить "{{ object.title }}"?</h2>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Да, удалить</button>
-    <a href="{% url 'post_detail' object.pk %}" class="btn btn-secondary">Отмена</a>
-  </form>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body text-center">
+        
+        <div class="mb-3">
+          <span class="display-4 text-danger">⚠</span>
+        </div>
+
+        <h3 class="fw-bold mb-3 text-danger">Удаление поста</h3>
+        <p class="mb-4">
+          Вы уверены, что хотите удалить пост 
+          <strong>"{{ object.title }}"</strong>?<br>
+          Это действие <span class="text-danger fw-semibold">нельзя отменить</span>.
+        </p>
+
+        <form method="post" class="d-flex justify-content-center gap-3">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger rounded-3 px-4">🗑 Да, удалить</button>
+          <a href="{% url 'post_detail' object.pk %}" class="btn btn-outline-secondary rounded-3 px-4">⬅ Отмена</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

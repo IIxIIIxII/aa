@@ -3,11 +3,26 @@
 {% block title %}Создание поста{% endblock %}
 
 {% block content %}
-    <h3>Создание нового поста</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Создать пост</button>
-    </form>
-
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h3 class="fw-bold mb-4 text-center">✍ Создание нового поста</h3>
+        
+        <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            {{ form.as_p }}
+          </div>
+          
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'post_list' %}" class="btn btn-outline-secondary rounded-3">⬅ Назад</a>
+            <button type="submit" class="btn btn-success rounded-3">✅ Создать пост</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
