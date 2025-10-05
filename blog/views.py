@@ -7,19 +7,25 @@ from .forms import PostForm
 
 def post_list(request):
     category_id = request.GET.get('category')
+    search_author = request.GET.get('author', '').strip()
     categories = Category.objects.all()
 
+    posts = Post.objects.all()
+
     if category_id:
-        posts = Post.objects.filter(categories__id=category_id).distinct()
-    else:
-        posts = Post.objects.all()
+        posts = posts.filter(categories__id=category_id).distinct()
+
+    if search_author:
+        posts = posts.filter(author__username__icontains=search_author)
 
     context = {
         'posts': posts,
         'categories': categories,
-        'selected_category': int(category_id) if category_id else None
+        'selected_category': int(category_id) if category_id else None,
+        'search_author': search_author,
     }
     return render(request, 'blog/post_list.html', context)
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)

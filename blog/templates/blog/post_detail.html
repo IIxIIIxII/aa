@@ -10,15 +10,24 @@
         <h1 class="fw-bold mb-3">{{ post.title }}</h1>
 
         <p class="text-muted small mb-4">
+          Автор: <span class="fw-semibold text-dark">{{ post.author.username }}</span> •
           Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}
         </p>
+
+        {% if post.categories.exists %}
+        <div class="mb-3">
+          <span class="text-secondary small">Категории:</span>
+          {% for cat in post.categories.all %}
+            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary">{{ cat.name }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
 
         <div class="mb-4" style="font-size: 1.05rem; line-height: 1.6;">
           {{ post.text|linebreaks }}
         </div>
 
         <hr>
-
         <div class="d-flex justify-content-between">
           <a href="{% url 'post_list' %}" class="btn btn-outline-secondary rounded-3">⬅ Все посты</a>
           <div>
@@ -31,4 +40,5 @@
   </div>
 </div>
 {% endblock %}
+
 
