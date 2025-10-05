@@ -8,6 +8,24 @@
       <a href="{% url 'post_create' %}" class="btn btn-success rounded-3">➕ Создать пост</a>
   </div>
 
+  <!-- 🔽 Фильтр по категориям -->
+  <div class="mb-4 d-flex flex-wrap align-items-center">
+      <span class="me-2 fw-semibold text-secondary">Категории:</span>
+
+      <a href="{% url 'post_list' %}"
+         class="btn btn-sm me-2 mb-2 {% if not selected_category %}btn-primary{% else %}btn-outline-primary{% endif %}">
+         Все
+      </a>
+
+      {% for category in categories %}
+        <a href="?category={{ category.id }}"
+           class="btn btn-sm me-2 mb-2 {% if selected_category == category.id %}btn-primary{% else %}btn-outline-primary{% endif %}">
+           {{ category.name }}
+        </a>
+      {% endfor %}
+  </div>
+
+  <!-- 🔽 Список постов -->
   <div class="row g-4">
     {% for post in posts %}
       <div class="col-md-6 col-lg-4">

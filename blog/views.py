@@ -2,12 +2,24 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 
 def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    category_id = request.GET.get('category')
+    categories = Category.objects.all()
+
+    if category_id:
+        posts = Post.objects.filter(categories__id=category_id).distinct()
+    else:
+        posts = Post.objects.all()
+
+    context = {
+        'posts': posts,
+        'categories': categories,
+        'selected_category': int(category_id) if category_id else None
+    }
+    return render(request, 'blog/post_list.html', context)
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
