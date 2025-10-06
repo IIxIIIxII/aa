@@ -1,24 +1,75 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}Создание поста{% endblock %}
+{% block title %}
+  {% if post %}Редактирование поста{% else %}Создание поста{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-8 col-lg-6">
     <div class="card shadow-sm border-0 rounded-4">
       <div class="card-body">
-        <h3 class="fw-bold mb-4 text-center">✍ Создание нового поста</h3>
-        
-        <form method="post" class="needs-validation" novalidate>
+        <h3 class="fw-bold mb-4 text-center">
+          {% if post %}✏ Редактирование поста{% else %}✍ Создание нового поста{% endif %}
+        </h3>
+
+        <form method="post">
           {% csrf_token %}
-          
+          {{ form.as_p }}
+
           <div class="mb-3">
-            {{ form.as_p }}
+            <label class="form-label">Категории поста:</label>
+            <select name="categories" class="form-select" multiple>
+              {% for cat in all_categories %}
+                <option value="{{ cat.id }}"
+                  {% if post and cat in post.categories.all %}selected{% endif %}>
+                  {{ cat.name }}
+                </option>
+              {% endfor %}
+            </select>
           </div>
-          
-          <div class="d-flex justify-content-between">
+
+          <div class="mb-3">
+            <label class="form-label">Добавить новую категорию:</label>
+            <input type="text" name="new_category" class="form-control" placeholder="Название категории">
+          </div>
+
+          {% if post %}
+          <div class="mb-3">
+            <label class="form-label">Существующие категории поста:</label>
+            <ul class="list-group">
+              {% for cat in post.categories.all %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ cat.name }}
+                <a href="{% url 'remove_category_from_post' post.pk cat.id %}" class="btn btn-sm btn-danger">Удалить из поста</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label">Управление категориями:</label>
+            <ul class="list-group">
+              {% for cat in all_categories %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <form method="post" action="{% url 'edit_category' cat.id %}" class="d-flex w-100">
+                  {% csrf_token %}
+                  <input type="text" name="name" value="{{ cat.name }}" class="form-control me-2">
+                  <button type="submit" class="btn btn-sm btn-primary me-2">Сохранить</button>
+                </form>
+
+                <a href="{% url 'delete_category' cat.id %}" class="btn btn-sm btn-danger">Удалить</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
             <a href="{% url 'post_list' %}" class="btn btn-outline-secondary rounded-3">⬅ Назад</a>
-            <button type="submit" class="btn btn-success rounded-3">✅ Создать пост</button>
+            <button type="submit" class="btn btn-success rounded-3">
+              {% if post %}💾 Сохранить изменения{% else %}✅ Создать пост{% endif %}
+            </button>
           </div>
         </form>
       </div>
